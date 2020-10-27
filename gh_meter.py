@@ -1,6 +1,7 @@
 """Main module of program github-meter. For start program touch it.
 
 """
+import time
 
 import gh_meter_function as fn
 
@@ -19,7 +20,17 @@ while k or l:
         data_count_sorted = fn.process_total_dict(total_dict)
         print ("\n" * 100)
         fn.create_total_count_table(data_count_sorted)
-        fn.create_total_count_chart(data_count_sorted)
+
+        while True:
+            print("")
+            ch = input("Do you want to create bar chart? (y/n): ")
+            if ch == 'y':
+                time.sleep(2)
+                fn.create_total_count_chart(data_count_sorted)
+                break
+            elif ch == 'n':
+                time.sleep(1)
+                break
 
         fn.print_back_menu()
         l = True
