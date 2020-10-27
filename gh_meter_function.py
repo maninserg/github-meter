@@ -89,4 +89,28 @@ def create_total_count_chart(data_count_sorted):
     chart.x_labels = data_count_sorted[0]
     chart.add('',data_count_sorted[1])
     chart.render_to_file('pop_langs.svg')
+    print ("")
+    print ("Look bar chart in file 'pop_langs.svg' in folder with program")
+    print ("Open this chart by your browser")
 
+
+def print_main_menu():
+    """Print main menu to stdout
+
+    """
+    print ("\n" * 100)
+    print ("--------------------------------")
+    print ("Main menu program github-meter")
+    print ("--------------------------------")
+    print ("")
+    print ("1.Show pop languages on GitHub")
+    print ("0.Exit")
+    print ("")
+
+def print_back_menu():
+    """Print menu for come back to main menu
+
+    """
+    print("")
+    print("1.Back to Main menu")
+    print("0.Exit")

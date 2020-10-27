@@ -6,16 +6,10 @@ import gh_meter_function as fn
 
 
 while True:
-    print ("\n" * 100)
-    print ("--------------------------------")
-    print ("Main menu program github-meter")
-    print ("--------------------------------")
-    print ("")
-    print ("1.Show pop languages on GitHub")
-    print ("0.Exit")
-    print ("")
+    fn.print_main_menu()
     key=input("Your choice: ")
     if key == '0':
+        print("\n" * 100)
         break
     elif key == '1':
         print ("\n" * 100)
@@ -24,14 +18,13 @@ while True:
         print ("\n" * 100)
         fn.create_total_count_table(data_count_sorted)
         fn.create_total_count_chart(data_count_sorted)
-        print("")
-        print("1.Back to Main menu")
-        print("0.Exit")
-        print("")
+        fn.print_back_menu()
         key=input("Your choice: ")
-        if key == '0':
+        while True:
+            if key == '1':
+                break
+            elif key == '0':
+                continue
+            else:
+                key=input("Your choice: ")
             break
-        elif key == '1':
-            continue
-        else:
-            key=input("Your choice: ")
