@@ -1,3 +1,7 @@
+"""Modul with all functions
+
+"""
+
 import requests
 
 from prettytable import PrettyTable
@@ -10,7 +14,9 @@ import settings as st
 
 
 def get_stat_from_github(language):
+    """Function does request to GitHub for one language(format 'str')
 
+    """
     url = "https://api.github.com/search/repositories?q=language:{}&sort=stars".format(language)
     r = requests.get(url)
     print ("")
@@ -23,7 +29,9 @@ def get_stat_from_github(language):
     return lang_stat_dict
 
 def create_total_dict():
+    """Function does requests for list language in settings.py
 
+    """
     total_dict = {}
     print ("")
     print ("------------------")
@@ -35,7 +43,9 @@ def create_total_dict():
     return total_dict
 
 def process_total_dict(total_dict):
+    """Function make list for tables and charts
 
+    """
     counts = []
     langs = list(total_dict.keys())
     for lang in langs:
@@ -47,6 +57,10 @@ def process_total_dict(total_dict):
     return langs,counts
 
 def create_total_count_table(data_count_sorted):
+    """Function make table with number of repos on GitHub all languages
+    for list from settings.py
+
+    """
     Nn = list(range(len(data_count_sorted[0])))
     Nn = [i + 1 for i in Nn]
     table = PrettyTable()
@@ -65,6 +79,10 @@ def create_total_count_table(data_count_sorted):
     print (table)
 
 def create_total_count_chart(data_count_sorted):
+    """Function make chart with number of repos on GitHub for all languges
+    for list from settings.py
+
+    """
     my_style = LS('#333366', base_style=LCS)
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
     chart.title = "Popularity rating of languages on GitHub"

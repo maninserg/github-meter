@@ -1,3 +1,7 @@
+"""Modul with all settings of program github-meter
+
+"""
+#List for selection of languages on GitHub
 list_languages = ('python',
                   'ruby',
                   'haskell',
@@ -5,7 +9,7 @@ list_languages = ('python',
                   'java',
                   'html',
                   'go',
-                  'bash',
+                  'php',
                   'perl',
                   'javascript',
                   )
