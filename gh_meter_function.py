@@ -99,7 +99,7 @@ def create_total_count_chart(data_count_sorted):
     chart.render_to_file('pop_langs.svg')
     print ("")
     print ("Look bar chart in file 'pop_langs.svg' in folder with program")
-    print ("!!!Attention!!! Open this chart by your browser for good display")
+    print ("!!!Attention!!! Open this chart by internt browser for good display")
 
 
 def print_main_menu():
