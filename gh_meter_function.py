@@ -99,7 +99,7 @@ def create_total_count_chart(data_count_sorted):
     chart.render_to_file('pop_langs.svg')
     print ("")
     print ("Look bar chart in file 'pop_langs.svg' in folder with program")
-    print ("Open this chart by your browser for good display")
+    print ("!!!Attention!!! Open this chart by your browser for good display")
 
 
 def print_main_menu():
@@ -111,7 +111,7 @@ def print_main_menu():
     print ("Main menu program github-meter")
     print ("--------------------------------")
     print ("")
-    print ("1.Show pop languages on GitHub")
+    print ("1.Show Polularity raiting of languages on GitHub")
     print ("0.Exit")
     print ("")
 
@@ -120,6 +120,9 @@ def print_back_menu():
 
     """
     print ("")
+    print ("-----------")
+    print ("Navigation")
+    print ("-----------")
     print ("1.Back to Main menu")
     print ("0.Exit")
     print ("")
