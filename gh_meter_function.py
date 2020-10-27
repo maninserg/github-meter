@@ -10,6 +10,8 @@ import pygal
 
 from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
 
+import time
+
 import settings as st
 
 
@@ -32,6 +34,11 @@ def create_total_dict():
     """Function does requests for list language in settings.py
 
     """
+    if len(st.list_languages) <= 10:
+        t_sleep = 0
+    elif len(st.list_languages) > 10 and len(st.list_languages) <= 20:
+        t_sleep = 5
+    print(t_sleep)
     total_dict = {}
     print ("")
     print ("------------------")
@@ -40,6 +47,7 @@ def create_total_dict():
     for language in st.list_languages:
         total_dict [language] = get_stat_from_github(language)
         print (len(total_dict.keys()))
+        time.sleep(t_sleep)
     return total_dict
 
 def process_total_dict(total_dict):
@@ -91,7 +99,7 @@ def create_total_count_chart(data_count_sorted):
     chart.render_to_file('pop_langs.svg')
     print ("")
     print ("Look bar chart in file 'pop_langs.svg' in folder with program")
-    print ("Open this chart by your browser")
+    print ("Open this chart by your browser for good display")
 
 
 def print_main_menu():

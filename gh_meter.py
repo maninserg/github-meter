@@ -18,13 +18,4 @@ while True:
         print ("\n" * 100)
         fn.create_total_count_table(data_count_sorted)
         fn.create_total_count_chart(data_count_sorted)
-        fn.print_back_menu()
-        key=input("Your choice: ")
-        while True:
-            if key == '1':
-                break
-            elif key == '0':
-                continue
-            else:
-                key=input("Your choice: ")
-            break
+        key = input()
