@@ -4,15 +4,13 @@
 
 import gh_meter_function as fn
 
-k = True
-l = False
 
-while k or l:
+while True:
     fn.print_main_menu()
     key=input("Your choice: ")
     if key == '0':
         print("\n" * 100)
-        k = False
+        break
     elif key == '1':
         print ("\n" * 100)
         total_dict = fn.create_total_dict()
@@ -21,13 +19,9 @@ while k or l:
         fn.create_total_count_table(data_count_sorted)
         fn.create_total_count_chart(data_count_sorted)
 
-        fn.print_back_menu()
-        l = True
-        while l == True:
-            key = input("Your choice: ")
+        while True:
+            fn.print_back_menu()
+            key = input()
             if key == '0':
-                k,l = False, False
-                print("\n" * 100)
-            elif key == '1':
-                l = False
+                break
 

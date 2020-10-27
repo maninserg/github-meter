@@ -38,7 +38,7 @@ def create_total_dict():
         t_sleep = 0
     elif len(st.list_languages) > 10 and len(st.list_languages) <= 20:
         t_sleep = 5
-    print(t_sleep)
+
     total_dict = {}
     print ("")
     print ("------------------")
@@ -119,6 +119,7 @@ def print_back_menu():
     """Print menu for come back to main menu
 
     """
-    print("")
-    print("1.Back to Main menu")
-    print("0.Exit")
+    print ("")
+    print ("1.Back to Main menu")
+    print ("0.Exit")
+    print ("")
