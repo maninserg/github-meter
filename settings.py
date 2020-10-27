@@ -9,7 +9,9 @@ list_languages = ('python',
                   'java',
                   'html',
                   'go',
-                  'php',
                   'perl',
                   'javascript',
+                  'php',
+                  'sh',
+                  'r'
                   )

@@ -73,10 +73,9 @@ def create_total_count_table(data_count_sorted):
     Nn = [i + 1 for i in Nn]
     table = PrettyTable()
     column_names = ["Nn", "Language", "Repositories"]
-
     table.add_column(column_names[0], Nn)
     table.add_column(column_names[1], data_count_sorted[0])
-    table.add_column(column_names[2], data_count_sorted[1])
+    table.add_column(column_names[2], ['{:,}'.format(int(x)) for x in data_count_sorted[1]])
 
     print ("""
           """)
