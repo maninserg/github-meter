@@ -95,6 +95,7 @@ def create_total_count_chart(data_count_sorted):
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
     chart.title = "Popularity rating of languages on GitHub"
     chart.x_labels = data_count_sorted[0]
+    chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',data_count_sorted[1])
     chart.render_to_file('pop_langs.svg')
     print ("")
