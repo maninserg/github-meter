@@ -111,7 +111,8 @@ def print_main_menu():
     print ("Main menu program github-meter")
     print ("--------------------------------")
     print ("")
-    print ("1.Show Polularity raiting of languages on GitHub")
+    print ("1.Show Numbers of Repositories by Language on GitHub"
+    print ("2.Show Most-Starred Language Projects on GitHub")
     print ("0.Exit")
     print ("")
 

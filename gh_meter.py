@@ -42,3 +42,18 @@ while k or l:
             elif key == '1':
                 l = False
 
+    elif key == '2':
+        print ("\n" *100)
+        lang = input("How language do you want to see?: " )
+        lang.lower()
+        fn.get_stat_from_github(lang)
+
+        fn.print_back_menu()
+        l = True
+        while l == True:
+            key = input("Your choice: ")
+            if key == '0':
+                k,l = False, False
+                print("\n" * 100)
+            elif key == '1':
+                l = False
