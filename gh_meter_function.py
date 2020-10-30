@@ -138,6 +138,7 @@ def process_depos_lang(lang_dict):
     list_descrip = []
     list_created = []
     list_updated = []
+    list_forks = []
     for repo_dict in repo_dicts:
         list_name.append(repo_dict['name'])
         list_owner.append(repo_dict['owner']['login'])
@@ -146,12 +147,13 @@ def process_depos_lang(lang_dict):
         list_descrip.append(repo_dict['description'])
         list_created.append(repo_dict['created_at'])
         list_updated.append(repo_dict['updated_at'])
+        list_forks.append(repo_dict['forks_count'])
 
         list_created = list_date_format(list_created)
         list_updated = list_date_format(list_updated)
 
     list_repos = [list_name, list_owner, list_stars, list_repo_html,
-                  list_descrip, list_created, list_updated]
+                  list_descrip, list_created, list_updated, list_forks]
     return list_repos
 
 
@@ -177,6 +179,7 @@ def output_info_depos(list_repos):
         print ("Description: ", list_repos[4][i])
         print ("Created: ", list_repos[5][i])
         print ("Updated: ", list_repos[6][i])
+        print ("Forks count: ", list_repos[7][i])
         print("")
 
 def create_sum_repos_table(list_repos, lang):
@@ -186,13 +189,14 @@ def create_sum_repos_table(list_repos, lang):
     Nn = list(range(len(list_repos[0])))
     Nn = [i + 1 for i in Nn]
     table = PrettyTable()
-    column_names = ["Nn", "Name", "Owner", "Stars", "Created", "Updated"]
+    column_names = ["Nn", "Name", "Owner", "Stars", "Forks count", "Created", "Updated"]
     table.add_column(column_names[0], Nn)
     table.add_column(column_names[1], list_repos[0])
     table.add_column(column_names[2], list_repos[1])
     table.add_column(column_names[3], ['{:,}'.format(int(x)) for x in list_repos[2]])
-    table.add_column(column_names[4], list_repos[5])
-    table.add_column(column_names[5], list_repos[6])
+    table.add_column(column_names[4], ['{:,}'.format (int(x)) for x in list_repos[7]])
+    table.add_column(column_names[5], list_repos[5])
+    table.add_column(column_names[6], list_repos[6])
 
     table.align["Name"] = "l"
     table.align["Owner"] = "l"
@@ -224,31 +228,12 @@ def list_date_format(list_date):
     return list_form
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    lang = "python"
+    response_dict = get_stat_from_github(lang)
+    repo_dicts = response_dict['items']
+    print("Repositories returned: ", len(repo_dicts))
+    repo_dict = repo_dicts[0]
+    print ("\nKeys: ", len(repo_dict))
+    for key in sorted(repo_dict.keys()):
+        print (key)
