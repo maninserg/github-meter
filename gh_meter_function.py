@@ -111,7 +111,7 @@ def print_main_menu():
     print ("Main menu program github-meter")
     print ("--------------------------------")
     print ("")
-    print ("1.Show Numbers of Repositories by Language on GitHub"
+    print ("1.Show Numbers of Repositories by Language on GitHub")
     print ("2.Show Most-Starred Language Projects on GitHub")
     print ("0.Exit")
     print ("")
@@ -127,3 +127,46 @@ def print_back_menu():
     print ("1.Back to Main menu")
     print ("0.Exit")
     print ("")
+
+def process_depos_lang(lang_dict):
+    """Function processes information about Most-Starred Repos
+
+    """
+    repo_dicts = lang_dict['items']
+    print ("Repositories returned: ", len(repo_dicts))
+    list_name = []
+    list_owner = []
+    list_stars = []
+    list_repo_html = []
+    list_descrip = []
+    for repo_dict in repo_dicts:
+        list_name.append(repo_dict['name'])
+        list_owner.append(repo_dict['owner']['login'])
+        list_stars.append(repo_dict['stargazers_count'])
+        list_repo_html.append(repo_dict['html_url'])
+        list_descrip.append(repo_dict['description'])
+    list_repos = [list_name, list_owner, list_stars, list_repo_html, list_descrip]
+    return list_repos
+
+
+
+def output_info_depos(list_repos):
+    """Fucnction makes table with information about Most-Starred Pepos
+    of language
+
+    """
+
+    print ("""
+         """)
+    print("-----------------------------------------")
+    print ("Selected information about each repository:")
+    print("-----------------------------------------")
+    print ("")
+    for i in range(len(list_repos[0])):
+        print ("Nn: ", i + 1)
+        print ("Name: ", list_repos[0][i])
+        print ("Owner: ", list_repos[1][i])
+        print ("Stars: ", list_repos[2][i])
+        print ("Repository: ", list_repos[3][i])
+        print ("Description: ", list_repos[4][i])
+        print("")

@@ -46,7 +46,9 @@ while k or l:
         print ("\n" *100)
         lang = input("How language do you want to see?: " )
         lang.lower()
-        fn.get_stat_from_github(lang)
+        lang_dict = fn.get_stat_from_github(lang)
+        list_repos = fn.process_depos_lang(lang_dict)
+        fn.output_info_depos(list_repos)
 
         fn.print_back_menu()
         l = True
