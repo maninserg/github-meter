@@ -212,8 +212,22 @@ def create_repos_lang_chart(list_repos, lang):
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
     chart.title = ("Most-Starred {} Projects on GitHub".format(lang.capitalize()))
     chart.x_labels = list_repos[0]
+    plot_dicts = []
+
+    desks = []
+    for desk in list_repos[4]:
+        if not desk:
+            desk = "No description provided"
+        desks.append(desk)
+
+    for i in range(len(list_repos[2])):
+        plot_dict = {'value' : list_repos[2][i],
+                     'label' : desks[i],
+                     'xlink' : list_repos[3][i]}
+        plot_dicts.append(plot_dict)
+
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
-    chart.add('',list_repos[2])
+    chart.add('',plot_dicts)
     chart.render_to_file('repos_{}.svg'.format(lang.lower()))
     print ("")
     print ("Look bar chart in file 'repos_{}.svg' in folder with program".format(lang.lower()))
