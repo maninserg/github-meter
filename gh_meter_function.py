@@ -79,11 +79,8 @@ def create_total_count_table(data_count_sorted):
 
     print ("""
           """)
-    print("-----------------------------------------")
-    print ("Number of repositories by languages on GitHub")
-    print("-----------------------------------------")
-    print ("")
-    print (table)
+    print(table.get_string(title="Numbers of repositories by languages on GitHub"))
+
 
 def create_total_count_chart(data_count_sorted):
     """Function make chart with number of repos on GitHub for all languges
@@ -139,13 +136,22 @@ def process_depos_lang(lang_dict):
     list_stars = []
     list_repo_html = []
     list_descrip = []
+    list_created = []
+    list_updated = []
     for repo_dict in repo_dicts:
         list_name.append(repo_dict['name'])
         list_owner.append(repo_dict['owner']['login'])
         list_stars.append(repo_dict['stargazers_count'])
         list_repo_html.append(repo_dict['html_url'])
         list_descrip.append(repo_dict['description'])
-    list_repos = [list_name, list_owner, list_stars, list_repo_html, list_descrip]
+        list_created.append(repo_dict['created_at'])
+        list_updated.append(repo_dict['updated_at'])
+
+        list_created = list_date_format(list_created)
+        list_updated = list_date_format(list_updated)
+
+    list_repos = [list_name, list_owner, list_stars, list_repo_html,
+                  list_descrip, list_created, list_updated]
     return list_repos
 
 
@@ -169,28 +175,30 @@ def output_info_depos(list_repos):
         print ("Stars: ", list_repos[2][i])
         print ("Repository: ", list_repos[3][i])
         print ("Description: ", list_repos[4][i])
+        print ("Created: ", list_repos[5][i])
+        print ("Updated: ", list_repos[6][i])
         print("")
 
-def create_sum_repos_table(list_repos):
+def create_sum_repos_table(list_repos, lang):
     """Function make summary table with info about repositories
 
     """
     Nn = list(range(len(list_repos[0])))
     Nn = [i + 1 for i in Nn]
     table = PrettyTable()
-    column_names = ["Nn", "Name", "Owner", "Stars"]
+    column_names = ["Nn", "Name", "Owner", "Stars", "Created", "Updated"]
     table.add_column(column_names[0], Nn)
     table.add_column(column_names[1], list_repos[0])
     table.add_column(column_names[2], list_repos[1])
-    table.add_column(column_names[3], list_repos[2])
+    table.add_column(column_names[3], ['{:,}'.format(int(x)) for x in list_repos[2]])
+    table.add_column(column_names[4], list_repos[5])
+    table.add_column(column_names[5], list_repos[6])
 
+    table.align["Name"] = "l"
+    table.align["Owner"] = "l"
     print ("""
           """)
-    print("-----------------------------------------")
-    print ("Summary table of Most-Starred Projects")
-    print("-----------------------------------------")
-    print ("")
-    print (table)
+    print(table.get_string(title="Summary table of Most-Starred {} Projects".format(lang.capitalize())))
 
 def create_repos_lang_chart(list_repos, lang):
     """Function make chart with  Most-Starred Repositories
@@ -204,5 +212,43 @@ def create_repos_lang_chart(list_repos, lang):
     chart.add('',list_repos[2])
     chart.render_to_file('repos_{}.svg'.format(lang.lower()))
     print ("")
-    print ("Look bar chart in file 'pop_langs.svg' in folder with program")
+    print ("Look bar chart in file 'repos_{}.svg' in folder with program".format(lang.lower()))
     print ("!!!Attention!!! Open this chart by internt browser for good display")
+
+def list_date_format(list_date):
+
+    list_form = []
+    for item in list_date:
+        ls_split = item.split('T')
+        list_form.append(ls_split[0])
+    return list_form
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

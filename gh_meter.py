@@ -48,7 +48,7 @@ while k or l:
         lang.lower()
         lang_dict = fn.get_stat_from_github(lang)
         list_repos = fn.process_depos_lang(lang_dict)
-        fn.create_sum_repos_table(list_repos)
+        fn.create_sum_repos_table(list_repos, lang)
 
         while True:
             print("")
