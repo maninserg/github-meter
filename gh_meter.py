@@ -48,7 +48,29 @@ while k or l:
         lang.lower()
         lang_dict = fn.get_stat_from_github(lang)
         list_repos = fn.process_depos_lang(lang_dict)
-        fn.output_info_depos(list_repos)
+        fn.create_sum_repos_table(list_repos)
+
+        while True:
+            print("")
+            ch = input("Do you want to get more detailed information? (y/n): ")
+            if ch == 'y':
+                time.sleep(2)
+                fn.output_info_depos(list_repos)
+                break
+            elif ch == 'n':
+                time.sleep(1)
+                break
+
+        while True:
+            print("")
+            ch = input("Do you want to create bar chart? (y/n): ")
+            if ch == 'y':
+                time.sleep(2)
+                fn.create_repos_lang_chart(list_repos, lang)
+                break
+            elif ch == 'n':
+                time.sleep(1)
+                break
 
         fn.print_back_menu()
         l = True

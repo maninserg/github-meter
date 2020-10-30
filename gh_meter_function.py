@@ -80,7 +80,7 @@ def create_total_count_table(data_count_sorted):
     print ("""
           """)
     print("-----------------------------------------")
-    print ("Popularity rating of languages on GitHub")
+    print ("Number of repositories by languages on GitHub")
     print("-----------------------------------------")
     print ("")
     print (table)
@@ -92,7 +92,7 @@ def create_total_count_chart(data_count_sorted):
     """
     my_style = LS('#333366', base_style=LCS)
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
-    chart.title = "Popularity rating of languages on GitHub"
+    chart.title = "Numbers of repositories by languages on GitHub"
     chart.x_labels = data_count_sorted[0]
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',data_count_sorted[1])
@@ -151,16 +151,16 @@ def process_depos_lang(lang_dict):
 
 
 def output_info_depos(list_repos):
-    """Fucnction makes table with information about Most-Starred Pepos
+    """Fucnction print information about Most-Starred Pepositories
     of language
 
     """
 
     print ("""
          """)
-    print("-----------------------------------------")
+    print("----------------------------------------------")
     print ("Selected information about each repository:")
-    print("-----------------------------------------")
+    print("----------------------------------------------")
     print ("")
     for i in range(len(list_repos[0])):
         print ("Nn: ", i + 1)
@@ -170,3 +170,39 @@ def output_info_depos(list_repos):
         print ("Repository: ", list_repos[3][i])
         print ("Description: ", list_repos[4][i])
         print("")
+
+def create_sum_repos_table(list_repos):
+    """Function make summary table with info about repositories
+
+    """
+    Nn = list(range(len(list_repos[0])))
+    Nn = [i + 1 for i in Nn]
+    table = PrettyTable()
+    column_names = ["Nn", "Name", "Owner", "Stars"]
+    table.add_column(column_names[0], Nn)
+    table.add_column(column_names[1], list_repos[0])
+    table.add_column(column_names[2], list_repos[1])
+    table.add_column(column_names[3], list_repos[2])
+
+    print ("""
+          """)
+    print("-----------------------------------------")
+    print ("Summary table of Most-Starred Projects")
+    print("-----------------------------------------")
+    print ("")
+    print (table)
+
+def create_repos_lang_chart(list_repos, lang):
+    """Function make chart with  Most-Starred Repositories
+
+    """
+    my_style = LS('#333366', base_style=LCS)
+    chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
+    chart.title = ("Most-Starred {} Projects on GitHub".format(lang.capitalize()))
+    chart.x_labels = list_repos[0]
+    chart.value_formatter = lambda x: '{:,}'.format(int(x))
+    chart.add('',list_repos[2])
+    chart.render_to_file('repos_{}.svg'.format(lang.lower()))
+    print ("")
+    print ("Look bar chart in file 'pop_langs.svg' in folder with program")
+    print ("!!!Attention!!! Open this chart by internt browser for good display")
