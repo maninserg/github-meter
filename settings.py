@@ -12,4 +12,10 @@ list_languages = ('python',
                   'perl',
                   'javascript',
                   'r',
-                  )
+                  'sh',
+                  'fortran',
+                  'cobol',
+                  'php',
+                  'sql',
+                  'swift',
+                  'typescript')
