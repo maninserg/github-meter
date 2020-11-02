@@ -25,6 +25,17 @@ while k or l:
 
         while True:
             print("")
+            ch = input("Do you want to update database? (y/n): ")
+            if ch == 'y':
+                fn.create_database()
+                fn.update_langs_database(data_count_sorted)
+                break
+            elif ch == 'n':
+                time.sleep(1)
+                break
+
+        while True:
+            print("")
             ch = input("Do you want to create bar chart? (y/n): ")
             if ch == 'y':
                 time.sleep(2)
