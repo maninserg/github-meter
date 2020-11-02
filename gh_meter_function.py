@@ -8,6 +8,8 @@ import os
 
 import datetime
 
+import sqlite3 as sq
+
 from prettytable import PrettyTable
 
 import pygal
@@ -260,7 +262,6 @@ def create_folder_svg():
 
 def create_html_report():
     now = datetime.datetime.now()
-    print(str(now.year), str(now.month), str(now.day))
     file_report = open("report_langs_{}-{:02d}-{:02d}.html".format(now.year,now.month,now.day), "w")
     file_report.write("<center>")
     file_report.write('<object type="image/svg+xml" data="./tmp_svg/pop_langs.svg"  width="800" height="600" >')
@@ -320,8 +321,72 @@ def create_users_table(list_users):
           """)
     print(table.get_string(title="The 100 most interesting users on GitHub"))
 
+def create_database():
+    """Create file github.db with tables
+
+    """
+    list_dir = os.listdir(".")
+    if not "github.db" in list_dir:
+
+        conn = sq.connect("github.db")
+        cursor = conn.cursor()
+        cursor.execute("""CREATE TABLE languages
+                       (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                       Language TEXT, Repositories INTEGER, Date TEXT)""")
+        cursor.execute("""CREATE TABLE repos
+                       (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                       Name TEXT, Owner TEXT, Stars INTEGER,
+                       Forks_count INTEGER, Created TEXT,
+                       Updated TEXT, Language TEXT, Date TEXT)""")
+
+        conn.commit()
+
+def update_langs_database(dict_langs):
+    """Update datebase languages
+
+    """
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+
+    now = datetime.datetime.now()
+    date_now = "{}-{:02d}-{:02d}".format(now.year,now.month,now.day)
+    date_list = []
+    for i in range(len(dict_langs[0])):
+        date_list.append(date_now)
+
+    list1 = list(zip(dict_langs[0], dict_langs[1],date_list))
+    cursor.executemany("""INSERT INTO languages (Language, Repositories, Date)
+                    VALUES (?, ?, ?)""",list1)
+    conn.commit()
+
+def update_repos_database(list_repos, lang):
+    """Update database repositories
+
+    """
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+
+    now = datetime.datetime.now()
+    date_now = "{}-{:02d}-{:02d}".format(now.year,now.month,now.day)
+    date_list = []
+    for i in range(len(list_repos[0])):
+        date_list.append(date_now)
+    list_lang = []
+    for i in range(len(list_repos[0])):
+        list_lang.append(lang)
+    list1 =list(zip(list_repos[0], list_repos[1], list_repos[2],
+                    list_repos[7], list_repos[5], list_repos[6],
+                    list_lang, date_list))
+
+    cursor.executemany("""INSERT INTO repos (Name, Owner, Stars, Forks_count,
+                       Created, Updated, Language, Date)
+                    VALUES (?,?,?,?,?,?,?,?)""",list1)
+    conn.commit()
+
 if __name__ == "__main__":
-    users_tot_dict = get_stat_users()
-    list_users = process_users(users_tot_dict)
-    create_users_table(list_users)
+    lang = 'python'
+    lang_dict = get_stat_from_github(lang)
+    list_repos = process_depos_lang(lang_dict)
+    create_database()
+    update_repos_database(list_repos, lang)
 
