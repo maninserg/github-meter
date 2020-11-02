@@ -97,6 +97,17 @@ while k or l:
 
                 while True:
                     print("")
+                    ch = input("Do you want to update database? (y/n): ")
+                    if ch == 'y':
+                        fn.create_database()
+                        fn.update_repos_database(list_repos, lang)
+                        break
+                    elif ch == 'n':
+                        time.sleep(1)
+                        break
+
+                while True:
+                    print("")
                     ch = input("Do you want to get more detailed information in text? (y/n): ")
                     if ch == 'y':
                         time.sleep(2)
