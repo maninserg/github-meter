@@ -1,8 +1,10 @@
-"""Modul with all functions
+"""Modul with all funct:wqions
 
 """
 
 import requests
+
+import os
 
 from prettytable import PrettyTable
 
@@ -40,7 +42,7 @@ def create_total_dict():
         t_sleep = 5
 
     total_dict = {}
-    print ("")
+    print ("\n * 100")
     print ("------------------")
     print ("Progress requests")
     print ("------------------")
@@ -87,13 +89,14 @@ def create_total_count_chart(data_count_sorted):
     for list from settings.py
 
     """
+    create_folder_svg()
     my_style = LS('#333366', base_style=LCS)
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
     chart.title = "Numbers of repositories by languages on GitHub"
     chart.x_labels = data_count_sorted[0]
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',data_count_sorted[1])
-    chart.render_to_file('./tmp/pop_langs.svg')
+    chart.render_to_file('./tmp_svg/pop_langs.svg')
     print ("")
     print ("Look bar chart in file 'pop_langs.svg' in folder with program")
     print ("!!!Attention!!! Open this chart by internt browser for good display")
@@ -208,6 +211,7 @@ def create_repos_lang_chart(list_repos, lang):
     """Function make chart with  Most-Starred Repositories
 
     """
+    create_folder_svg()
     my_style = LS('#333366', base_style=LCS)
     chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
     chart.title = ("Most-Starred {} Projects on GitHub".format(lang.capitalize()))
@@ -228,7 +232,7 @@ def create_repos_lang_chart(list_repos, lang):
 
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',plot_dicts)
-    chart.render_to_file('./tmp/repos_{}.svg'.format(lang.lower()))
+    chart.render_to_file('./tmp_svg/repos_{}.svg'.format(lang.lower()))
     print ("")
     print ("Look bar chart in file 'repos_{}.svg' in folder with program".format(lang.lower()))
     print ("!!!Attention!!! Open this chart by internt browser for good display")
@@ -243,9 +247,15 @@ def list_date_format(list_date):
         list_form.append(ls_split[0])
     return list_form
 
+def create_folder_svg():
+    """Create foder for save svg files
+
+    """
+    list_dir = os.listdir(path=".")
+    if not "tmp_svg" in list_dir:
+        os.mkdir(path="./tmp_svg")
 
 if __name__ == "__main__":
-    pass
-
+    create_folder_svg()
 
 

@@ -18,7 +18,6 @@ while k or l:
         print("\n" * 100)
         k = False
     elif key == '1':
-        print ("\n" * 100)
         total_dict = fn.create_total_dict()
         data_count_sorted = fn.process_total_dict(total_dict)
         print ("\n" * 100)
