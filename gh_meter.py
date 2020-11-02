@@ -43,6 +43,20 @@ while k or l:
                 print("\n" * 100)
             elif key == '1':
                 l = False
+    elif key == '3':
+        users_tot_dict = fn.get_stat_users()
+        list_users = fn.process_users(users_tot_dict)
+        fn.create_users_table(list_users)
+
+        fn.print_back_menu()
+        l = True
+        while l == True:
+            key = input("Your choice: ")
+            if key == '0':
+                k,l = False, False
+                print("\n" * 100)
+            elif key == '1':
+                l = False
 
     elif key == '2':
         print ("\n" * 100)

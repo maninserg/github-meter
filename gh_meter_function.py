@@ -115,6 +115,7 @@ def print_main_menu():
     print ("")
     print ("1.Show Numbers of Repositories by Language on GitHub")
     print ("2.Show Most-Starred Language Projects on GitHub")
+    print("3.Show list 'The 100 most interesting users on GitHub")
     print ("0.Exit")
     print ("")
 
@@ -276,7 +277,7 @@ def get_stat_users():
     """
     url = "https://api.github.com/search/users?q=followers:>1000&per_page=100&sort=followers"
     r = requests.get(url)
-    print ("")
+    print ("\n" * 100)
     print("Request: ", url)
     if r.status_code == 200:
         print("Status request: OK")
