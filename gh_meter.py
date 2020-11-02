@@ -140,12 +140,13 @@ while k or l:
             elif key == '1':
                 print("\n" * 100)
                 tot_dict = fn.create_total_dict()
+                fn.create_database()
                 for language in st.list_languages:
                     lang_dict = tot_dict[language]
                     list_repos = fn.process_depos_lang(lang_dict)
                     fn.create_sum_repos_table(list_repos, language)
                     fn.create_repos_lang_chart(list_repos, language)
-
+                    fn.update_repos_database(list_repos, language)
                 fn.print_back_menu()
                 l = True
                 while l == True:
