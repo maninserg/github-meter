@@ -6,6 +6,8 @@ import requests
 
 import os
 
+import datetime
+
 from prettytable import PrettyTable
 
 import pygal
@@ -42,7 +44,7 @@ def create_total_dict():
         t_sleep = 5
 
     total_dict = {}
-    print ("\n * 100")
+    print ("\n" * 100)
     print ("------------------")
     print ("Progress requests")
     print ("------------------")
@@ -98,7 +100,7 @@ def create_total_count_chart(data_count_sorted):
     chart.add('',data_count_sorted[1])
     chart.render_to_file('./tmp_svg/pop_langs.svg')
     print ("")
-    print ("Look bar chart in file 'pop_langs.svg' in folder with program")
+    print ("Look bar chart in file './tmp_svg/pop_langs.svg'")
     print ("!!!Attention!!! Open this chart by internt browser for good display")
 
 
@@ -234,7 +236,7 @@ def create_repos_lang_chart(list_repos, lang):
     chart.add('',plot_dicts)
     chart.render_to_file('./tmp_svg/repos_{}.svg'.format(lang.lower()))
     print ("")
-    print ("Look bar chart in file 'repos_{}.svg' in folder with program".format(lang.lower()))
+    print ("Look bar chart in file './tmp_svg/repos_{}.svg'".format(lang.lower()))
     print ("!!!Attention!!! Open this chart by internt browser for good display")
 
 def list_date_format(list_date):
@@ -255,7 +257,20 @@ def create_folder_svg():
     if not "tmp_svg" in list_dir:
         os.mkdir(path="./tmp_svg")
 
-if __name__ == "__main__":
-    create_folder_svg()
+def create_html_report():
+    now = datetime.datetime.now()
+    print(str(now.year), str(now.month), str(now.day))
+    file_report = open("report_langs_{}-{:02d}-{:02d}.html".format(now.year,now.month,now.day), "w")
+    file_report.write("<center>")
+    file_report.write('<object type="image/svg+xml" data="./tmp_svg/pop_langs.svg"  width="800" height="600" >')
+    file_report.write('</object>')
+    for lang in st.list_languages:
+        file_report.write('<object type="image/svg+xml" data="./tmp_svg/repos_{}.svg"  width="800" height="600" >'.format(lang))
+        file_report.write('</object>')
+    file_report.write('</center>')
+    file_report.close
 
+
+if __name__ == "__main__":
+    create_html_report()
 

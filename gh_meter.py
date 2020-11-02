@@ -45,7 +45,7 @@ while k or l:
                 l = False
 
     elif key == '2':
-        print ("\n" *100)
+        print ("\n" * 100)
         print ("1.Look infomation about all pre-installing languages in file settings.py?")
         print ("2.Look information about other language or only one")
         print ("3.Main menu")
@@ -61,8 +61,11 @@ while k or l:
             elif key == '3':
                 l = False
             elif key == '2':
+                print("\n" * 100)
                 lang = input("How language do you want to see?: " )
                 lang.lower()
+                print("\n" * 100)
+
                 lang_dict = fn.get_stat_from_github(lang)
                 list_repos = fn.process_depos_lang(lang_dict)
                 fn.create_sum_repos_table(list_repos, lang)
@@ -99,9 +102,20 @@ while k or l:
                     elif key == '1':
                         l = False
             elif key == '1':
+                print("\n" * 100)
                 tot_dict = fn.create_total_dict()
                 for language in st.list_languages:
                     lang_dict = tot_dict[language]
                     list_repos = fn.process_depos_lang(lang_dict)
                     fn.create_sum_repos_table(list_repos, language)
                     fn.create_repos_lang_chart(list_repos, language)
+
+                fn.print_back_menu()
+                l = True
+                while l == True:
+                    key = input("Your choice: ")
+                    if key == '0':
+                        k,l = False, False
+                        print("\n" * 100)
+                    elif key == '1':
+                        l = False
