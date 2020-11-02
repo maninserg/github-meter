@@ -93,7 +93,7 @@ def create_total_count_chart(data_count_sorted):
     chart.x_labels = data_count_sorted[0]
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',data_count_sorted[1])
-    chart.render_to_file('pop_langs.svg')
+    chart.render_to_file('./tmp/pop_langs.svg')
     print ("")
     print ("Look bar chart in file 'pop_langs.svg' in folder with program")
     print ("!!!Attention!!! Open this chart by internt browser for good display")
@@ -228,13 +228,15 @@ def create_repos_lang_chart(list_repos, lang):
 
     chart.value_formatter = lambda x: '{:,}'.format(int(x))
     chart.add('',plot_dicts)
-    chart.render_to_file('repos_{}.svg'.format(lang.lower()))
+    chart.render_to_file('./tmp/repos_{}.svg'.format(lang.lower()))
     print ("")
     print ("Look bar chart in file 'repos_{}.svg' in folder with program".format(lang.lower()))
     print ("!!!Attention!!! Open this chart by internt browser for good display")
 
 def list_date_format(list_date):
+    """ Format date, delete information about time
 
+    """
     list_form = []
     for item in list_date:
         ls_split = item.split('T')
@@ -243,11 +245,7 @@ def list_date_format(list_date):
 
 
 if __name__ == "__main__":
-    lang = "python"
-    response_dict = get_stat_from_github(lang)
-    repo_dicts = response_dict['items']
-    print("Repositories returned: ", len(repo_dicts))
-    repo_dict = repo_dicts[0]
-    print ("\nKeys: ", len(repo_dict))
-    for key in sorted(repo_dict.keys()):
-        print (key)
+    pass
+
+
+

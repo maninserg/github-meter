@@ -5,6 +5,9 @@ import time
 
 import gh_meter_function as fn
 
+import settings as st
+
+
 k = True
 l = False
 
@@ -96,3 +99,10 @@ while k or l:
                         print("\n" * 100)
                     elif key == '1':
                         l = False
+            elif key == '1':
+                tot_dict = fn.create_total_dict()
+                for language in st.list_languages:
+                    lang_dict = tot_dict[language]
+                    list_repos = fn.process_depos_lang(lang_dict)
+                    fn.create_sum_repos_table(list_repos, language)
+                    fn.create_repos_lang_chart(list_repos, language)

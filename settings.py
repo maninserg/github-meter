@@ -11,7 +11,9 @@ list_languages = ('python',
                   'go',
                   'perl',
                   'javascript',
+                  'r',
+                  'fortran',
+                  'cobol',
                   'php',
-                  'sh',
-                  'r'
+                  'sh'
                   )
