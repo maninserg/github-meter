@@ -270,7 +270,57 @@ def create_html_report():
     file_report.write('</center>')
     file_report.close
 
+def get_stat_users():
+    """Function does request the 100 most interesting users
+
+    """
+    url = "https://api.github.com/search/users?q=followers:>1000&per_page=100&sort=followers"
+    r = requests.get(url)
+    print ("")
+    print("Request: ", url)
+    if r.status_code == 200:
+        print("Status request: OK")
+    else:
+        print("Status request: not OK")
+    users_dict = r.json()
+    return users_dict
+
+def process_users(users_tot_dict):
+    """Function processes information about the 100 most interesting users
+
+    """
+    users_dicts = users_tot_dict['items']
+    print ("Repositories returned: ", len(users_dicts))
+    list_login = []
+    list_html = []
+    for user in users_dicts:
+        list_login.append(user['login'])
+        list_html.append(user['html_url'])
+
+    list_users = [list_login, list_html]
+    return list_users
+
+def create_users_table(list_users):
+    """Function make table with the 100 most interesting users on GitHub
+
+    """
+    Nn = list(range(len(list_users[0])))
+    Nn = [i + 1 for i in Nn]
+    table = PrettyTable()
+    column_names = ["Nn", "Name", "Link"]
+    table.add_column(column_names[0], Nn)
+    table.add_column(column_names[1], list_users[0])
+    table.add_column(column_names[2], list_users[1])
+
+
+    table.align["Name"] = "l"
+    table.align["Link"] = "l"
+    print ("""
+          """)
+    print(table.get_string(title="The 100 most interesting users on GitHub"))
 
 if __name__ == "__main__":
-    create_html_report()
+    users_tot_dict = get_stat_users()
+    list_users = process_users(users_tot_dict)
+    create_users_table(list_users)
 
