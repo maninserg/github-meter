@@ -18,4 +18,5 @@ list_languages = ('python',
                   'php',
                   'sql',
                   'swift',
-                  'typescript')
+                  'typescript',
+                  'applescript')

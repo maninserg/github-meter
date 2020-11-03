@@ -47,9 +47,9 @@ def create_total_dict():
 
     total_dict = {}
     print ("\n" * 100)
-    print ("------------------")
+    print ("-----------------")
     print ("Progress requests")
-    print ("------------------")
+    print ("-----------------")
     for language in st.list_languages:
         total_dict [language] = get_stat_from_github(language)
         print (len(total_dict.keys()))
@@ -110,14 +110,29 @@ def print_main_menu():
     """Print main menu to stdout
 
     """
+    if not "github.db" in os.listdir():
+        last_update = "NEVER!!! The database will be created in file './github.db'"
+        avl_dates = 0
+    else:
+        conn = sq.connect('github.db')
+        cursor = conn.execute("SELECT Date FROM languages ORDER BY Date LIMIT 1")
+        for row in cursor:
+            last_update = row[0]
+        cursor = conn.execute("SELECT COUNT(*) FROM dates")
+        for row in cursor:
+            avl_dates = str(row[0])
+        conn.close()
     print ("\n" * 100)
-    print ("--------------------------------")
+    print ("------------------------------")
     print ("Main menu program github-meter")
-    print ("--------------------------------")
+    print ("------------------------------")
     print ("")
-    print ("1.Show Numbers of Repositories by Language on GitHub")
-    print ("2.Show Most-Starred Language Projects on GitHub")
-    print("3.Show list 'The 100 most interesting users on GitHub")
+    print("1.Update database")
+    print("     The last update of database:", last_update)
+    print("     The availible numbers of dates:", avl_dates)
+    print("")
+    print ("2.Create and show tables and bar charts")
+    print("")
     print ("0.Exit")
     print ("")
 
@@ -337,7 +352,16 @@ def create_database():
                        (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                        Name TEXT, Owner TEXT, Stars INTEGER,
                        Forks_count INTEGER, Created TEXT,
-                       Updated TEXT, Language TEXT, Date TEXT)""")
+                       Updated TEXT, Link_html TEXT,
+                       Description TEXT,
+                       Language TEXT, Date TEXT)""")
+        cursor.execute("""CREATE TABLE dates
+                       (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                       Date TEXT)""")
+        cursor.execute("""CREATE TABLE ls_langs
+                       (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                       Language TEXT)""")
+
 
         conn.commit()
 
@@ -376,17 +400,49 @@ def update_repos_database(list_repos, lang):
         list_lang.append(lang)
     list1 =list(zip(list_repos[0], list_repos[1], list_repos[2],
                     list_repos[7], list_repos[5], list_repos[6],
+                    list_repos[3], list_repos[4],
                     list_lang, date_list))
 
     cursor.executemany("""INSERT INTO repos (Name, Owner, Stars, Forks_count,
-                       Created, Updated, Language, Date)
-                    VALUES (?,?,?,?,?,?,?,?)""",list1)
+                       Created, Updated, Link_html, Description, Language, Date)
+                    VALUES (?,?,?,?,?,?,?,?,?,?)""",list1)
     conn.commit()
 
-if __name__ == "__main__":
-    lang = 'python'
-    lang_dict = get_stat_from_github(lang)
-    list_repos = process_depos_lang(lang_dict)
-    create_database()
-    update_repos_database(list_repos, lang)
+def refresh_table_dates_database():
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""DROP TABLE dates""")
+    cursor.execute("""CREATE TABLE dates
+                   (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                   Date TEXT)""")
+    cursor.execute("""INSERT INTO dates (Date) SELECT DISTINCT Date FROM languages""")
+    conn.commit()
 
+def refresh_table_langs_database():
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""DROP TABLE ls_langs""")
+    cursor.execute("""CREATE TABLE ls_langs
+                   (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                   Language TEXT)""")
+    cursor.execute("""INSERT INTO ls_langs (Language) SELECT DISTINCT Language
+                   FROM languages""")
+    conn.commit()
+
+def print_show_menu():
+    print("\n" * 100)
+    print("-------------------------------------")
+    print("Create and show tables and bar charts")
+    print("-------------------------------------")
+    print("")
+    print("1. For the last date update")
+    print("")
+    print("2. For the one language for all dates")
+    print("")
+    print("3.Main menu")
+    print("")
+    print("0.Exit")
+    print("")
+
+if __name__ == "__main__":
+    pass
