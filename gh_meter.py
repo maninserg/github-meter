@@ -44,6 +44,14 @@ while k or l:
             elif key == '3':
                 l = False
             elif key == '2':
-                pass
+                print("\n" * 100)
+                fn.create_table_numrepos_lang_alldates()
+                fn.create_table_top_depos_all_langs()
+                fn.create_table_depo_all_dates()
+                fn.print_back_menu()
             elif key == '1':
-                pass
+                print("\n" * 100)
+                fn.create_table_langs()
+                fn.create_table_top_depos_all_langs()
+                fn.create_table_repo_all_dates()
+                fn.print_back_menu()

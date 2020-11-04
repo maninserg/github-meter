@@ -12,6 +12,8 @@ import sqlite3 as sq
 
 from prettytable import PrettyTable
 
+from prettytable import from_db_cursor
+
 import pygal
 
 from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
@@ -25,14 +27,15 @@ def get_stat_from_github(language):
     """Function does request to GitHub for one language(format 'str')
 
     """
-    url = "https://api.github.com/search/repositories?q=language:{}&sort=stars".format(language)
+    url = ("https://api.github.com/search/repositories?q=language:{}&sort=stars"
+           .format(language))
     r = requests.get(url)
     print ("")
     print("Request: ", url)
     if r.status_code == 200:
-        print("Status request: OK")
+        print("Status request: " +'\033[92m'+ "OK"+'\033[0m')
     else:
-        print("Status request: not OK")
+        print("Status request: "+'\033[91m'+"not OK"+'\033[0m')
     lang_stat_dict = r.json()
     return lang_stat_dict
 
@@ -105,45 +108,81 @@ def create_total_count_chart(data_count_sorted):
     print ("Look bar chart in file './tmp_svg/pop_langs.svg'")
     print ("!!!Attention!!! Open this chart by internt browser for good display")
 
+def get_stat_from_database():
 
-def print_main_menu():
-    """Print main menu to stdout
-
-    """
-    if not "github.db" in os.listdir():
+    if not "github.db" in os.listdir("./"):
         last_update = "NEVER!!! The database will be created in file './github.db'"
         avl_dates = 0
+        avl_langs = 0
     else:
         conn = sq.connect('github.db')
-        cursor = conn.execute("SELECT Date FROM languages ORDER BY Date LIMIT 1")
+        cursor = conn.execute("SELECT Date FROM languages ORDER BY Date DESC LIMIT 1")
         for row in cursor:
             last_update = row[0]
         cursor = conn.execute("SELECT COUNT(*) FROM dates")
         for row in cursor:
             avl_dates = str(row[0])
+        cursor = conn.execute("SELECT COUNT(*) FROM ls_langs")
+        for row in cursor:
+            avl_langs = str(row[0])
         conn.close()
+    return last_update, avl_dates, avl_langs
+
+def print_main_menu():
+    """Print main menu to stdout
+
+    """
+    stat_database = get_stat_from_database()
+    last_update = stat_database[0]
+    avl_dates = stat_database[1]
+    if last_update == "NEVER!!! The database will be created in file './github.db'":
+        ab = "\033[91m"
+    else:
+        ab = "\033[92m"
     print ("\n" * 100)
     print ("------------------------------")
     print ("Main menu program github-meter")
     print ("------------------------------")
     print ("")
     print("1.Update database")
-    print("     The last update of database:", last_update)
-    print("     The availible numbers of dates:", avl_dates)
+    print("     The last update of database:", "\033[4m" + ab + last_update +"\033[0m")
+    print("     The availible numbers of dates:", "\033[4m" + ab + str(avl_dates) +"\033[0m")
     print("")
     print ("2.Create and show tables and bar charts")
     print("")
     print ("0.Exit")
     print ("")
 
+def print_show_menu():
+    stat_database = get_stat_from_database()
+    last_update = stat_database[0]
+    avl_langs = stat_database[2]
+    if last_update == "NEVER!!! The database will be created in file './github.db'":
+        ab = "\033[91m"
+    else:
+        ab = "\033[92m"
+    print("\n" * 100)
+    print("-------------------------------------")
+    print("Create and show tables and bar charts")
+    print("-------------------------------------")
+    print("")
+    print("1. For the last date update:", "\033[4m" + ab + last_update +"\033[0m")
+    print("")
+    print("2. For the one language from", "\033[4m" + ab + str(avl_langs),"languages" +"\033[0m", "for all dates")
+    print("")
+    print("3.Main menu")
+    print("")
+    print("0.Exit")
+    print("")
+
 def print_back_menu():
     """Print menu for come back to main menu
 
     """
     print ("")
-    print ("-----------")
-    print ("Navigation")
-    print ("-----------")
+    print ("---------------")
+    print ("Navigation menu")
+    print ("---------------")
     print ("1.Back to Main menu")
     print ("0.Exit")
     print ("")
@@ -429,20 +468,88 @@ def refresh_table_langs_database():
                    FROM languages""")
     conn.commit()
 
-def print_show_menu():
-    print("\n" * 100)
-    print("-------------------------------------")
-    print("Create and show tables and bar charts")
-    print("-------------------------------------")
-    print("")
-    print("1. For the last date update")
-    print("")
-    print("2. For the one language for all dates")
-    print("")
-    print("3.Main menu")
-    print("")
-    print("0.Exit")
-    print("")
+def create_table_langs():
 
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Language, Repositories FROM languages
+                WHERE Date=(SELECT MAX(Date) FROM languages)
+                ORDER BY Repositories DESC""")
+    my_table = from_db_cursor(cursor)
+    my_table.add_column("Nn", [x + 1 for x in range(18)])
+    my_table.align["Language"] = "l"
+    my_table.align["Nn"] = "l"
+
+    print(my_table.get_string(title="Numbers of Repos on GitHub"))
+
+    conn.commit()
+
+def create_table_top_depos_all_langs():
+
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Name, Owner, Stars, Forks_count,
+                   Language FROM repos
+                WHERE Date=(SELECT MAX(Date) FROM repos)
+                ORDER BY Stars DESC LIMIT 20""")
+    my_table = from_db_cursor(cursor)
+    my_table.add_column("Nn", [x + 1 for x in range(20)])
+    my_table.align["Name"] = "l"
+    my_table.align["Owner"] = "l"
+    my_table.align["Language"] = "l"
+    my_table.align["Nn"] = "l"
+
+    print(my_table.get_string(title="TOP 20 Repositories on GitHub"))
+
+    conn.commit()
+
+def create_table_numrepos_lang_alldates():
+    lang = "python"
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Date, Repositories FROM languages
+                   WHERE Language=:lang
+                   ORDER BY Date DESC""", {"lang":lang})
+    my_table = from_db_cursor(cursor)
+#    my_table.add_column("Nn", [x + 1 for x in range(2)])
+#    my_table.align["Nn"] = "l"
+
+    print(my_table.get_string(title="Numbers of {} Repos on GitHub".format(lang)))
+
+    conn.commit()
+
+def create_table_toprepos_lang_date():
+    lang = "python"
+    date = "2020-11-04"
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Name, Owner, Stars, Forks_count FROM repos
+                   WHERE Date=:date AND Language=:lang
+                   ORDER BY Stars DESC""", {"lang":lang, "date":date})
+    my_table = from_db_cursor(cursor)
+#    my_table.add_column("Nn", [x + 1 for x in range(2)])
+#    my_table.align["Nn"] = "l"
+
+    my_table.align["Name"] = "l"
+    my_table.align["Owner"] = "l"
+    print(my_table.get_string(title="TOP {} Repos on GitHub".format(lang)))
+
+    conn.commit()
+
+
+def create_table_repo_all_dates():
+
+    name = "linux"
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Date, Stars, Forks_count,
+                   Language FROM repos
+                   WHERE Name=:name
+                   ORDER BY Date DESC""", {"name": name})
+    my_table = from_db_cursor(cursor)
+
+    print(my_table.get_string(title="TOP 20 Repositories on GitHub"))
+
+    conn.commit()
 if __name__ == "__main__":
     pass
