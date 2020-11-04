@@ -3,7 +3,7 @@
 """
 import time
 
-import gh_meter_function as fn
+import github-meter-func as fn
 
 import settings as st
 
