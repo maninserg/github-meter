@@ -1,7 +1,7 @@
 # github-meter
 The program collects of the statistics for github by github api
 
-<center>
+<hr>
 
 ![Alt text](screenshots/001_main_menu.png "The main menu")
 
@@ -15,4 +15,4 @@ The program collects of the statistics for github by github api
 
 ![Alt text](screenshots/006_bar_top20_repos_date.png "The top 20 repositories for languges")
 
-</center>
+
