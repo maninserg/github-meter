@@ -4,9 +4,19 @@
 
 <hr>
 
-**Description:** The program does the parsing github by github api. It create(if you touch program in the first time) and fills the database for pre-installed languages in file "settings.py". The used base sqlite3. Results of program are tables by a library "prettytable" and bar charts by a library "Pygal". There is settings of bar charts in file "settings.pyt" also.
+**Description:** The program does the parsing github by github api. It create(if you touch program in the first time) and fills the database for pre-installed languages in file "settings.py". The file "github.db" with database is created in program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in file "settings.pyt" also.
 
 <hr>
+
+<p align="center">
+  <img src="screenshots/00_preinstall_langs.png"/>
+<p align="center">The list of preinstall languages in the file "settings.py"<p align="center">
+</p>
+
+<p align="center">
+  <img src="screenshots/000_settings_barcharts.png"/>
+<p align="center">Settings of bar charts in the file "settings.py"<p align="center">
+</p>
 
 <p align="center">
   <img src="screenshots/001_main_menu.png"/>
