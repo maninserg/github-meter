@@ -5,21 +5,25 @@ Description: The program does the parsing github by github api. It create(if you
 <hr>
 <p align="center">
   <img src="screenshots/001_main_menu.png"/>
-<p align="center">Fig.Main menu<p align="center">
+<p align="center">Main menu<p align="center">
 </p>
 
+<p align="center">
+  <img src="screenshots/003_table_lang_date.png"/>
+<p align="center">The table of counts repositories for languagesu<p align="center">
+</p>
+<p align="center">
+  <img src="screenshots/004_bar_lang_date.png"/>
+<p align="center">The bat chart of counts repositories for languages<p align="center">
+</p>
+<p align="center">
+  <img src="screenshots/005_table_top20_repos_date.png"/>
+<p align="center">The table of counts repositories for languages<p align="center">
+</p>
+<p align="center">
+  <img src="screenshots/006_bar_top20_repos_date.png"/>
+<p align="center">The top 20 repositories for languges<p align="center">
+</p>
 
-
-
-
-![Alt text](screenshots/002_second_menu.png "The second menu")
-
-![Alt text](screenshots/003_table_lang_date.png "The table of counts repositories for languages")
-
-![Alt text](screenshots/004_bar_lang_date.png "The chart bar of counts repositories for languages")
-
-![Alt text](screenshots/005_table_top20_repos_date.png "The table of counts repositories for languages")
-
-![Alt text](screenshots/006_bar_top20_repos_date.png "The top 20 repositories for languges")
 
 
