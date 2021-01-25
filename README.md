@@ -1,14 +1,14 @@
 # github-meter
 The program collects of the statistics for github by github api
 <hr>
+Description: 
+<hr>
 <p align="center">
   <img src="screenshots/001_main_menu.png"/>
-<p align="center">This is a centered caption for the image<p align="center">
-
-
+<p align="center">Fig.Main menu<p align="center">
 </p>
 
-![Alt text](screenshots/001_main_menu.png "The main menu")
+
 
 
 
