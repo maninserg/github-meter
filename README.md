@@ -1,7 +1,7 @@
 # github-meter
-The program collects of the statistics for github by github api
+About: The program collects of the statistics for github by github api
 <hr>
-Description: 
+Description: The program does the parsing github by github api. It create(if you touch program in the first time) and fills the database for pre-installed languages in file "settings.py". The used base sqlite3. Results of program are tables by a library "prettytable" and bar charts by a library "Pygal".
 <hr>
 <p align="center">
   <img src="screenshots/001_main_menu.png"/>
