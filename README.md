@@ -7,7 +7,7 @@
 **Description:** The program does the parsing github by github api. It create(if you touch the program in the first time) and fills a database for pre-installed languages from a file "settings.py". A file "github.db" with database is created in the program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in the file "settings.py" also. 
 
 **You can get the following infoamation:**
-1. The rating of languages depending on the number of repositories
+1. The rating of pre-installed languages depending on the number of repositories
 2. The top 20 repositories for all pre-installed languages depending on the number of forks
 3. The top 30 repositories for the one select language depending on the number of forks
 4. The short information for the one select repository
