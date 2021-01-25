@@ -5,7 +5,12 @@ Description: The program does the parsing github by github api. It create(if you
 <hr>
 <p align="center">
   <img src="screenshots/001_main_menu.png"/>
-<p align="center">Main menu<p align="center">
+<p align="center">The main menu<p align="center">
+</p>
+
+<p align="center">
+  <img src="screenshots/002_second_menu.png"/>
+<p align="center">The second menu<p align="center">
 </p>
 
 <p align="center">
@@ -22,7 +27,7 @@ Description: The program does the parsing github by github api. It create(if you
 </p>
 <p align="center">
   <img src="screenshots/006_bar_top20_repos_date.png"/>
-<p align="center">The top 20 repositories for languges<p align="center">
+<p align="center">The bar chart of top 20 repositories for languges<p align="center">
 </p>
 
 
