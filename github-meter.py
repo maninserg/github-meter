@@ -10,8 +10,9 @@ import settings as st
 
 k = True
 l = False
+m = False
 
-while k or l:
+while k or l or m:
     fn.print_main_menu()
     key=input("Your choice: ")
     if key == '0':
@@ -45,13 +46,59 @@ while k or l:
                 l = False
             elif key == '2':
                 print("\n" * 100)
-                fn.create_table_numrepos_lang_alldates()
-                fn.create_table_top_depos_all_langs()
-                fn.create_table_depo_all_dates()
+                lang = fn.choice_lang()
+                print("\n" * 100)
+                fn.create_table_numrepos_lang_alldates(lang)
+                date = fn.choice_date(lang)
+                fn.create_table_toprepos_lang_date(lang, date)
+                repo = fn.choice_repo_lang(date, lang)
+                print("\n" * 100)
+                fn.create_table_repo_lang_all_dates(lang,repo)
+
                 fn.print_back_menu()
+                m = True
+                while m == True:
+                    key=input("Your choice: ")
+                    if key == '0':
+                        m = False
+                        l = False
+                        k = False
+                        print("\n" * 100)
+                    elif key == '1':
+                        l = False
+                        m = False
+
             elif key == '1':
                 print("\n" * 100)
                 fn.create_table_langs()
-                fn.create_table_top_depos_all_langs()
-                fn.create_table_repo_all_dates()
+                while True:
+                    ch = input("Do you want to see bar chart?(y/n):")
+                    if ch == 'y':
+                        fn.create_chart_langs()
+                        break
+                    elif ch == 'n':
+                        break
+                fn.create_table_top_repos_all_langs()
+                while True:
+                    ch = input("Do you want to see bar chart?(y/n):")
+                    if ch == 'y':
+                        fn.create_chart_top_repos_all_langs()
+                        break
+                    elif ch == 'n':
+                        break
+                repo = fn.choice_repo_20_all_langs()
+                print("\n" * 100)
+                fn.create_table_repo_all_dates(repo)
+
                 fn.print_back_menu()
+                m = True
+                while m == True:
+                    key=input("Your choice: ")
+                    if key == '0':
+                        m = False
+                        l = False
+                        k = False
+                        print("\n" * 100)
+                    elif key == '1':
+                        l = False
+                        m = False

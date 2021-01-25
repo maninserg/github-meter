@@ -73,40 +73,6 @@ def process_total_dict(total_dict):
     counts = [x[1] for x in xs]
     return langs,counts
 
-def create_total_count_table(data_count_sorted):
-    """Function make table with number of repos on GitHub all languages
-    for list from settings.py
-
-    """
-    Nn = list(range(len(data_count_sorted[0])))
-    Nn = [i + 1 for i in Nn]
-    table = PrettyTable()
-    column_names = ["Nn", "Language", "Repositories"]
-    table.add_column(column_names[0], Nn)
-    table.add_column(column_names[1], data_count_sorted[0])
-    table.add_column(column_names[2], ['{:,}'.format(int(x)) for x in data_count_sorted[1]])
-
-    print ("""
-          """)
-    print(table.get_string(title="Numbers of repositories by languages on GitHub"))
-
-
-def create_total_count_chart(data_count_sorted):
-    """Function make chart with number of repos on GitHub for all languges
-    for list from settings.py
-
-    """
-    create_folder_svg()
-    my_style = LS('#333366', base_style=LCS)
-    chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
-    chart.title = "Numbers of repositories by languages on GitHub"
-    chart.x_labels = data_count_sorted[0]
-    chart.value_formatter = lambda x: '{:,}'.format(int(x))
-    chart.add('',data_count_sorted[1])
-    chart.render_to_file('./tmp_svg/pop_langs.svg')
-    print ("")
-    print ("Look bar chart in file './tmp_svg/pop_langs.svg'")
-    print ("!!!Attention!!! Open this chart by internt browser for good display")
 
 def get_stat_from_database():
 
@@ -183,7 +149,7 @@ def print_back_menu():
     print ("---------------")
     print ("Navigation menu")
     print ("---------------")
-    print ("1.Back to Main menu")
+    print ("1.Back to Main Menu")
     print ("0.Exit")
     print ("")
 
@@ -219,83 +185,6 @@ def process_depos_lang(lang_dict):
     return list_repos
 
 
-
-def output_info_depos(list_repos):
-    """Fucnction print information about Most-Starred Pepositories
-    of language
-
-    """
-
-    print ("""
-         """)
-    print("----------------------------------------------")
-    print ("Selected information about each repository:")
-    print("----------------------------------------------")
-    print ("")
-    for i in range(len(list_repos[0])):
-        print ("Nn: ", i + 1)
-        print ("Name: ", list_repos[0][i])
-        print ("Owner: ", list_repos[1][i])
-        print ("Stars: ", list_repos[2][i])
-        print ("Repository: ", list_repos[3][i])
-        print ("Description: ", list_repos[4][i])
-        print ("Created: ", list_repos[5][i])
-        print ("Updated: ", list_repos[6][i])
-        print ("Forks count: ", list_repos[7][i])
-        print("")
-
-def create_sum_repos_table(list_repos, lang):
-    """Function make summary table with info about repositories
-
-    """
-    Nn = list(range(len(list_repos[0])))
-    Nn = [i + 1 for i in Nn]
-    table = PrettyTable()
-    column_names = ["Nn", "Name", "Owner", "Stars", "Forks count", "Created", "Updated"]
-    table.add_column(column_names[0], Nn)
-    table.add_column(column_names[1], list_repos[0])
-    table.add_column(column_names[2], list_repos[1])
-    table.add_column(column_names[3], ['{:,}'.format(int(x)) for x in list_repos[2]])
-    table.add_column(column_names[4], ['{:,}'.format (int(x)) for x in list_repos[7]])
-    table.add_column(column_names[5], list_repos[5])
-    table.add_column(column_names[6], list_repos[6])
-
-    table.align["Name"] = "l"
-    table.align["Owner"] = "l"
-    print ("""
-          """)
-    print(table.get_string(title="Summary table of Most-Starred {} Projects".format(lang.capitalize())))
-
-def create_repos_lang_chart(list_repos, lang):
-    """Function make chart with  Most-Starred Repositories
-
-    """
-    create_folder_svg()
-    my_style = LS('#333366', base_style=LCS)
-    chart = pygal.Bar(style=my_style,x_label_rotation=45, show_legend=False)
-    chart.title = ("Most-Starred {} Projects on GitHub".format(lang.capitalize()))
-    chart.x_labels = list_repos[0]
-    plot_dicts = []
-
-    desks = []
-    for desk in list_repos[4]:
-        if not desk:
-            desk = "No description provided"
-        desks.append(desk)
-
-    for i in range(len(list_repos[2])):
-        plot_dict = {'value' : list_repos[2][i],
-                     'label' : desks[i],
-                     'xlink' : list_repos[3][i]}
-        plot_dicts.append(plot_dict)
-
-    chart.value_formatter = lambda x: '{:,}'.format(int(x))
-    chart.add('',plot_dicts)
-    chart.render_to_file('./tmp_svg/repos_{}.svg'.format(lang.lower()))
-    print ("")
-    print ("Look bar chart in file './tmp_svg/repos_{}.svg'".format(lang.lower()))
-    print ("!!!Attention!!! Open this chart by internt browser for good display")
-
 def list_date_format(list_date):
     """ Format date, delete information about time
 
@@ -305,75 +194,6 @@ def list_date_format(list_date):
         ls_split = item.split('T')
         list_form.append(ls_split[0])
     return list_form
-
-def create_folder_svg():
-    """Create foder for save svg files
-
-    """
-    list_dir = os.listdir(path=".")
-    if not "tmp_svg" in list_dir:
-        os.mkdir(path="./tmp_svg")
-
-def create_html_report():
-    now = datetime.datetime.now()
-    file_report = open("report_langs_{}-{:02d}-{:02d}.html".format(now.year,now.month,now.day), "w")
-    file_report.write("<center>")
-    file_report.write('<object type="image/svg+xml" data="./tmp_svg/pop_langs.svg"  width="800" height="600" >')
-    file_report.write('</object>')
-    for lang in st.list_languages:
-        file_report.write('<object type="image/svg+xml" data="./tmp_svg/repos_{}.svg"  width="800" height="600" >'.format(lang))
-        file_report.write('</object>')
-    file_report.write('</center>')
-    file_report.close
-
-def get_stat_users():
-    """Function does request the 100 most interesting users
-
-    """
-    url = "https://api.github.com/search/users?q=followers:>1000&per_page=100&sort=followers"
-    r = requests.get(url)
-    print ("\n" * 100)
-    print("Request: ", url)
-    if r.status_code == 200:
-        print("Status request: OK")
-    else:
-        print("Status request: not OK")
-    users_dict = r.json()
-    return users_dict
-
-def process_users(users_tot_dict):
-    """Function processes information about the 100 most interesting users
-
-    """
-    users_dicts = users_tot_dict['items']
-    print ("Repositories returned: ", len(users_dicts))
-    list_login = []
-    list_html = []
-    for user in users_dicts:
-        list_login.append(user['login'])
-        list_html.append(user['html_url'])
-
-    list_users = [list_login, list_html]
-    return list_users
-
-def create_users_table(list_users):
-    """Function make table with the 100 most interesting users on GitHub
-
-    """
-    Nn = list(range(len(list_users[0])))
-    Nn = [i + 1 for i in Nn]
-    table = PrettyTable()
-    column_names = ["Nn", "Name", "Link"]
-    table.add_column(column_names[0], Nn)
-    table.add_column(column_names[1], list_users[0])
-    table.add_column(column_names[2], list_users[1])
-
-
-    table.align["Name"] = "l"
-    table.align["Link"] = "l"
-    print ("""
-          """)
-    print(table.get_string(title="The 100 most interesting users on GitHub"))
 
 def create_database():
     """Create file github.db with tables
@@ -469,6 +289,14 @@ def refresh_table_langs_database():
     conn.commit()
 
 def create_table_langs():
+    """Create and print table with Numbers of Repos all languages
+
+    """
+    conn = sq.connect('github.db')
+    cursor = conn.execute("SELECT MAX(Date) FROM dates")
+    for row in cursor:
+        last_update = row[0]
+    conn.commit()
 
     conn = sq.connect("github.db")
     cursor = conn.cursor()
@@ -480,11 +308,38 @@ def create_table_langs():
     my_table.align["Language"] = "l"
     my_table.align["Nn"] = "l"
 
-    print(my_table.get_string(title="Numbers of Repos on GitHub"))
+    print(my_table.get_string(title="Numbers of Repos on GitHub for {}".format(last_update)))
 
     conn.commit()
 
-def create_table_top_depos_all_langs():
+def create_chart_langs():
+    langs = []
+    repos = []
+
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Language, Repositories FROM languages
+                WHERE Date=(SELECT MAX(Date) FROM languages)
+                ORDER BY Repositories DESC""")
+
+    for row in cursor:
+        langs.append(row[0])
+        repos.append(row[1])
+    conn.commit()
+
+    chart = pygal.Bar(st.my_config, style=st.my_style)
+    chart.title = "Numbers of Repos on GitHub"
+    chart.x_labels = langs
+    chart.value_formatter = lambda x: '{:,}'.format(int(x))
+    chart.add("",repos)
+    chart.render_in_browser()
+
+def create_table_top_repos_all_langs():
+
+    conn = sq.connect('github.db')
+    cursor = conn.execute("SELECT MAX(Date) FROM dates")
+    for row in cursor:
+        last_update = row[0]
+    conn.commit()
 
     conn = sq.connect("github.db")
     cursor = conn.cursor()
@@ -499,57 +354,266 @@ def create_table_top_depos_all_langs():
     my_table.align["Language"] = "l"
     my_table.align["Nn"] = "l"
 
-    print(my_table.get_string(title="TOP 20 Repositories on GitHub"))
+    print(my_table.get_string(title="TOP 20 Repositories on GitHub for {}".format(last_update)))
 
     conn.commit()
 
-def create_table_numrepos_lang_alldates():
-    lang = "python"
+def create_chart_top_repos_all_langs():
+    names= []
+    stars = []
+    lang  = []
+    descrip = []
+    link_html = []
+    plot_dicts = []
+
+
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Name, Stars, Language, Description,
+                          Link_html  FROM repos
+                          WHERE Date=(SELECT MAX(Date) FROM repos)
+                          ORDER BY Stars DESC LIMIT 20""")
+
+    for row in cursor:
+        names.append(row[0])
+        stars.append(row[1])
+        lang.append(row[2])
+        descrip.append(row[3])
+        link_html.append(row[4])
+    conn.commit()
+
+    chart = pygal.Bar(st.my_config, style=st.my_style)
+    chart.title = "The TOP 20 Repos on GitHub"
+    chart.x_labels = names
+    chart.value_formatter = lambda x: '{:,}'.format(int(x))
+    for i in range(len(names)):
+        plot_dict = {
+            'value' : stars[i],
+            'label' : lang[i] + " : " + descrip[i],
+            'xlink' : link_html[i],
+            }
+        plot_dicts.append(plot_dict)
+    chart.add("",plot_dicts)
+    chart.render_in_browser()
+
+def create_table_numrepos_lang_alldates(lang):
     conn = sq.connect("github.db")
     cursor = conn.cursor()
     cursor.execute("""SELECT Date, Repositories FROM languages
                    WHERE Language=:lang
                    ORDER BY Date DESC""", {"lang":lang})
     my_table = from_db_cursor(cursor)
-#    my_table.add_column("Nn", [x + 1 for x in range(2)])
-#    my_table.align["Nn"] = "l"
 
-    print(my_table.get_string(title="Numbers of {} Repos on GitHub".format(lang)))
+    print(my_table.get_string(title="Numbers of {} Repos on GitHub".format(lang.capitalize())))
 
     conn.commit()
 
-def create_table_toprepos_lang_date():
-    lang = "python"
-    date = "2020-11-04"
+def create_chart_numrepos_lang_alldates(lang):
+    dates = []
+    repos = []
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Date, Repositories FROM languages
+                   WHERE Language=:lang
+                   ORDER BY Date""", {"lang":lang})
+    for row in cursor:
+        dates.append(row[0])
+        repos.append(row[1])
+    conn.commit()
+    chart = pygal.StackedLine(st.my_config, fill=True)
+    #chart = pygal.Bar(st.my_config, style=st.my_style)
+    chart.title = ("Changing the number of repositories by date for {}".
+                   format(lang.capitalize()))
+    chart.x_labels = dates
+    chart.value_formatter = lambda x: '{:,}'.format(int(x))
+    chart.add("",repos)
+    chart.render_in_browser()
+
+def create_table_toprepos_lang_date(lang,date):
     conn = sq.connect("github.db")
     cursor = conn.cursor()
     cursor.execute("""SELECT Name, Owner, Stars, Forks_count FROM repos
                    WHERE Date=:date AND Language=:lang
                    ORDER BY Stars DESC""", {"lang":lang, "date":date})
     my_table = from_db_cursor(cursor)
-#    my_table.add_column("Nn", [x + 1 for x in range(2)])
-#    my_table.align["Nn"] = "l"
-
     my_table.align["Name"] = "l"
     my_table.align["Owner"] = "l"
-    print(my_table.get_string(title="TOP {} Repos on GitHub".format(lang)))
+
+    my_table.add_column("Nn", [x + 1 for x in range(30)])
+    my_table.align["Nn"] = "l"
+    print(my_table.get_string(title="TOP {} Repos on GitHub for {}".format(
+        lang.capitalize(), date)))
 
     conn.commit()
 
 
-def create_table_repo_all_dates():
+def create_table_repo_all_dates(name):
 
-    name = "linux"
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Name, Owner, Language, Description,
+                          Link_html FROM repos
+                WHERE Date=(SELECT MAX(Date) FROM repos) AND
+                        Name=:name""", {"name" : name})
+    for row in cursor:
+        Name = row[0]
+        Owner = row[1]
+        Language = row[2]
+        Description = row[3]
+        Link_html = row[4]
+
+    conn.commit()
+
     conn = sq.connect("github.db")
     cursor = conn.cursor()
-    cursor.execute("""SELECT Date, Stars, Forks_count,
-                   Language FROM repos
+    cursor.execute("""SELECT Date, Stars, Forks_count FROM repos
                    WHERE Name=:name
                    ORDER BY Date DESC""", {"name": name})
     my_table = from_db_cursor(cursor)
 
-    print(my_table.get_string(title="TOP 20 Repositories on GitHub"))
+    print("Name: ", Name)
+    print("")
+    print("Owner: ", Owner)
+    print("")
+    print("Language: ", Language)
+    print("")
+    print("Description: ", Description)
+    print("")
+    print("Link html: ", Link_html)
+    print("")
+    print("")
+    print(my_table.get_string(title="Report {} Repositorie for all dates".format(name)))
 
     conn.commit()
+
+def create_table_repo_lang_all_dates(lang, name):
+
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Name, Owner, Language, Description,
+                          Link_html FROM repos
+                WHERE Date=(SELECT MAX(Date) FROM repos) AND
+                        Name=:name""", {"name" : name})
+    for row in cursor:
+        Name = row[0]
+        Owner = row[1]
+        Language = row[2]
+        Description = row[3]
+        Link_html = row[4]
+
+    conn.commit()
+    conn = sq.connect("github.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT Date, Stars, Forks_count FROM repos
+                   WHERE Name=:name AND Language=:lang
+                   ORDER BY Date DESC""", {"name": name, "lang": lang})
+    my_table = from_db_cursor(cursor)
+    print("Name: ", Name)
+    print("")
+    print("Owner: ", Owner)
+    print("")
+    print("Language: ", Language)
+    print("")
+    print("Description: ", Description)
+    print("")
+    print("Link html: ", Link_html)
+    print("")
+    print("")
+
+    print(my_table.get_string(title="Report {} Repositorie for all dates".format(name)))
+
+    conn.commit()
+
+def get_ava_langs():
+    langs = []
+    conn = sq.connect('github.db')
+    cursor = conn.execute("SELECT DISTINCT Language FROM languages")
+    for row in cursor:
+        langs.append(row[0].capitalize())
+    conn.commit()
+    return langs
+
+def create_table_ava_langs():
+    list_langs = get_ava_langs()
+    list_count = [i + 1 for i in range(len(list_langs))]
+    table_langs = PrettyTable()
+    table_langs.add_column("Nn", list_count)
+    table_langs.add_column("Language", list_langs)
+    table_langs.align["Language"] = "l"
+    print(table_langs.get_string(title="Available Languages"))
+    return list_count
+
+def choice_lang():
+    list_langs = get_ava_langs()
+    list_count = create_table_ava_langs()
+    while True:
+        nlang = int(input("Your choice(Nn): "))
+        if nlang in list_count:
+            lang = list_langs[nlang - 1]
+            break
+    return lang.lower()
+
+def get_ava_dates(lang):
+    dates = []
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT DISTINCT Date FROM languages
+                          WHERE Language =:lang""", {"lang": lang})
+    for row in cursor:
+        dates.append(row[0])
+    conn.commit()
+    return dates
+
+def choice_date(lang):
+    dates = get_ava_dates(lang)
+    while True:
+        date = input("Enter date: ")
+        if date in dates:
+            break
+    return date
+
+
+def get_ava_20repos_all_langs():
+    repos = []
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Name, Owner, Stars, Forks_count,
+                   Language FROM repos
+                WHERE Date=(SELECT MAX(Date) FROM repos)
+                ORDER BY Stars DESC LIMIT 20""")
+    for row in cursor:
+        repos.append(row[0])
+    conn.commit()
+    return repos
+
+def choice_repo_20_all_langs():
+
+    list_repos = get_ava_20repos_all_langs()
+    list_count = [i + 1 for i in range(len(list_repos))]
+    while True:
+        nrepo = int(input("Your choice(Nn): "))
+        if nrepo in list_count:
+            repo = list_repos[nrepo - 1]
+            break
+    return repo
+
+def get_ava_repos_lang_date(date,lang):
+    repos = []
+    conn = sq.connect('github.db')
+    cursor = conn.execute("""SELECT Name, Owner, Stars, Forks_count FROM repos
+                          WHERE Date=:date AND Language=:lang
+                          ORDER BY Stars DESC""",{"date":date,"lang":lang})
+    for row in cursor:
+        repos.append(row[0])
+    conn.commit()
+    return repos
+
+def choice_repo_lang(date, lang):
+
+    list_repos = get_ava_repos_lang_date(date, lang)
+    list_count = [i + 1 for i in range(len(list_repos))]
+    while True:
+        nrepo = int(input("Your choice(Nn): "))
+        if nrepo in list_count:
+            repo = list_repos[nrepo - 1]
+            break
+    return repo
+
 if __name__ == "__main__":
-    pass
+    lang = 'java'
+    create_chart_numrepos_lang_alldates(lang)
+
