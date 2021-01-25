@@ -4,7 +4,7 @@
 
 <hr>
 
-**Description:** The program does the parsing github by github api. It create(if you touch program in the first time) and fills the database for pre-installed languages from file "settings.py". The file "github.db" with database is created in program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in file "settings.pyt" also.
+**Description:** The program does the parsing github by github api. It create(if you touch the program in the first time) and fills a database for pre-installed languages from a file "settings.py". A file "github.db" with database is created in the program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in the file "settings.pyt" also.
 
 <hr>
 
