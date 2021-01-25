@@ -2,7 +2,7 @@
 The program collects of the statistics for github by github api
 
 <hr>
-
+<p align="center">
 ![Alt text](screenshots/001_main_menu.png "The main menu")
 
 ![Alt text](screenshots/002_second_menu.png "The second menu")
@@ -14,5 +14,5 @@ The program collects of the statistics for github by github api
 ![Alt text](screenshots/005_table_top20_repos_date.png "The table of counts repositories for languages")
 
 ![Alt text](screenshots/006_bar_top20_repos_date.png "The top 20 repositories for languges")
-
+</p>
 
