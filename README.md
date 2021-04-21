@@ -1,10 +1,10 @@
 # github-meter
 
-**About:** The program collects of the statistics for github by github api
+The program collects of the statistics for github by github api
 
-<hr>
 
-**Description:** The program does the parsing github by github api. It create(if you touch the program in the first time) and fills a database for pre-installed languages from a file "settings.py". A file "github.db" with database is created in the program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in the file "settings.py" also. 
+## Description
+The program does the parsing github by github api. It create(if you touch the program in the first time) and fills a database for pre-installed languages from a file "settings.py". A file "github.db" with database is created in the program's directory. The used database is sqlite3. Results of the program are tables by a python's library "prettytable" and bar charts by a python's library "Pygal". There are settings of bar charts in the file "settings.py" also. 
 
 **You can get the following information:**
 1. The rating of pre-installed languages depending on the number of repositories
@@ -12,9 +12,8 @@
 3. The top 30 repositories for the one select language depending on the number of forks
 4. The short information for the one select repository
 
-<hr>
 
-<b>Installation for Linux*:</b>
+## Installation for Linux*:
 
 1. Clone the repository (or download the zip file and extract it):
 
@@ -38,9 +37,8 @@
 
 <i>*The installation for MacOS or Windows can be other</i>
 
-<hr>
 
-**Screenshots:**
+## Screenshots
 
 <p align="center">
   <img src="screenshots/00_preinstall_langs.png"/>
